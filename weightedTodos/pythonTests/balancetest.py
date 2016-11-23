@@ -2,7 +2,7 @@ starts = [0,1,3]
 fins   = [6,5,6]
 times  = [7,10,11]
 tempTimes = [7,10,11]
-total = 0
+total = times[0] + times[1] + times[2]
 
 lengths = [0,0,0]
 
@@ -10,6 +10,60 @@ aSch = [0,0,0,0,0,0,0]
 bSch = [0,0,0,0,0,0,0]
 cSch = [0,0,0,0,0,0,0]
 Sch = [aSch, bSch, cSch]
+total /= -7
+diff = [total, total, total, total, total, total, total]
+
+def initSch():
+    for i in range(0,3):
+        lengths[i] = fins[i] - starts[i]
+        lengths[i] += 1
+        for x in range(starts[i], fins[i]+1):
+            Sch[i][x] = times[i] / lengths[i]
+    for x in range(0, 7):
+        for i in range(0, 3):
+            diff(x) += Sch[i][x]
+
+
+def displaceinto(dest):
+    max = diff[dest]
+    need = max
+    ind = dest
+    for x in range(0,7):
+        if x ~= dest:
+            if diff[x] >= max:
+                max = diff[x]
+                ind = x
+    for i in range(0,3):
+        if starts[i] <= i and fins[i] >= i:
+            removal = 0
+            if diff[ind] > Sch[i][x]:
+                if need > Sch[i][x]:
+                    removal = Sch[i][x]
+                else:
+                    removal = need
+            else:
+                if need > diff[ind]:
+                    removal = diff[ind]
+                else:
+                    removal = need
+            diff[ind] -= removal
+            diff[dest] += removal
+            Sch[i][dest] += removal
+            Sch[i][x] -= removal
+            if diff[dest] == 0:
+                return()
+initSch()
+for x in range(0,7):
+    if diff[x] < 0:
+        displaceinto(x)                
+                    
+            
+print ('DONE')
+print (aSch)
+print (bSch)
+print (cSch)
+print (tempTimes)
+
 """
 for t in times:
     total = total+t
@@ -36,38 +90,3 @@ for i in range(0,7):
         tempTimes[j] = tempTimes[j] - multi[j]
 
 """
-def maximum(d,i):
-    m = 0
-    dd = 0
-    for x in range(0,7):
-        if startx[i] <= x and fins[i] >= x:
-            if d[x] > m:
-                m = d[x]
-                dd = x
-    return dd
-
-for i in range(0,3):
-    lengths[i] = fins[i] - starts[i]
-    total = total + times[i]
-total = total / 7
-diff = [total, total, total, total, total, total, total]
-
-
-for i in range(0,7):
-    for j in range(0,3):
-        if starts[j] <= i and fins[j] >= i:
-            Sch[j][i] = times[j] / lengths[j]
-    for j in range (0,3):
-        diff[i] = diff[i] - sch[j][i]
-
-for i in range(0,7):
-    while diff[i] < total:
-        for j in range(0,3):
-            if starts[j] <= i and fins[j] >= i:
-                    
-            
-print ('DONE')
-print (aSch)
-print (bSch)
-print (cSch)
-print (tempTimes)
