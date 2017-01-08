@@ -75,29 +75,3 @@ for i in range(0,3):
         te += Sch[i][x]
     print(te, end='\t')
 print()
-"""
-for t in times:
-    total = total+t
-    
-total = total / 7
-division = 0
-multiplicity = [0,0,0]
-for i in range(0,7):
-    
-    division = 0
-    for j in range(0,3):
-        multiplicity[j] = 0
-        
-        if starts[j] <= i and fins[j] >= i:
-            division = division + tempTimes[j]
-            multiplicity[j] = tempTimes[j]
-    multi = [0,0,0]
-    
-    multi = [total * t / division for t in multiplicity]
-    aSch[i] = multi[0]
-    bSch[i] = multi[1]
-    cSch[i] = multi[2]
-    for j in range(0,3):
-        tempTimes[j] = tempTimes[j] - multi[j]
-
-"""
