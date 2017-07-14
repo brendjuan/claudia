@@ -23,7 +23,7 @@ for index, row in data.iterrows():
 		time.sleep(0.1)
 		try:
 			f = web.DataReader(comp, 'yahoo', start, end)
-			f.to_csv('data/nasdaq/'+comp+'.csv')
+			f.to_csv('data/nasdaq/'+comp+'_'+str(end)+'.csv')
 			cant = 0
 		except:
 			if cant == 1 :
