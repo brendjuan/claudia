@@ -39,6 +39,10 @@ while True:
 	
 	while (conv_rnow < opening):
 		time.sleep(60*5)
+		rightnow = datetime.datetime.now()
+		conv_rnow = (rightnow.hour + hr_offset)*60 + rightnow.minute
+
+
 
 	rt_quotes = web.get_quote_google('LITE') #LOL
 
@@ -61,8 +65,12 @@ while True:
 			last_t   = time.time()
 			rightnow = datetime.datetime.now()
 
+		rightnow = datetime.datetime.now()
+		conv_rnow = (rightnow.hour + hr_offset)*60 + rightnow.minute
+
+
 	rt_quotes.to_csv('data/daily/'+str(datetime.datetime.now().date())+'.csv')
-	time.sleep(60*60*16)
+	time.sleep(60*60*10)
 
 print(xx.shape)
 print(len(tt))

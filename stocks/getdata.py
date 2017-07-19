@@ -64,7 +64,7 @@ for index, row in ticks.iterrows():
 				cant = 0
 			except:
 				time.sleep(0.01)
-				print (comp + ' ' + str(sys.exc_info()[0]))l
+				print (comp + ' ' + str(sys.exc_info()[0]))
 				if cant == 1 :
 					print ('FAILED: REACHED TIMEOUT ON ' + comp)
 
