@@ -1,6 +1,17 @@
 import threading
 import time
 
+class get_closing(thread.Thread)
+	def __init__(self, tick='AAPL'):
+
+	def run(self):
+
+
+class get_rt(thread.Thread)
+	def __init__(self, tick=['AAPL']):
+
+	def run(self):
+
 #Intraday stock ticker updating
 #Frequency = every 2 or so minutes (defined later)
 class update_intraday(threading.Thread):
