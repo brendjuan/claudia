@@ -16,18 +16,19 @@ start         = datetime.datetime(2010, 1, 1)
 yesterday     = today.date() - timedelta(days = 1)
 
 if (yesterday.weekday() == 5):
-	yesterday = date.today() - timedelta(days = 2)
+	yesterday = today.date() - timedelta(days = 2)
 
 elif (yesterday.weekday() == 6):
-	yesterday = date.today() - timedelta(days = 3)
+	yesterday = today.date() - timedelta(days = 3)
 
 end           = datetime.datetime(yesterday.year, yesterday.month, yesterday.day) 
 
 ticks         = pd.read_csv("data/nasdaq.csv", index_col=None, header=None)
 ticks.columns = ["Ticker"]
 
-blacklist         = pd.read_csv("data/blacklist.csv", index_col=None, header=None)
-blacklist.columns = ["Ticker"]
+blackl         = pd.read_csv("data/blacklist.csv", index_col=None, header=None)
+blackl.columns = ["Ticker"]
+list_blackl    = list(blackl['Ticker'])
 
 print()
 print('UPDATING Nasdaq Stocks')
@@ -64,20 +65,31 @@ for index, row in ticks.iterrows():
 					cant = cant - 1	
 
 	else:
+		if comp in list_blackl :
+			cant = 1
 
 		while (cant != 0):
 			
 			try:
 				f = web.DataReader(comp, 'yahoo', start, end)
 				f.to_csv('data/nasdaq/'+comp+'.csv')
+				if comp in list_blackl:
+					list_blackl.remove(comp)
 				cant = 0
 			except:
 				time.sleep(0.01)
-				print (comp + ' ' + str(sys.exc_info()[0]))
+				#print (comp + ' ' + str(sys.exc_info()[0]))
 				if cant == 1 :
-					print ('FAILED: REACHED TIMEOUT ON ' + comp)
+					print ('FAILED: REACHED TIMEOUT ON '+ comp)
+					if not comp in list_blackl:
+						list_blackl.append(comp)
+						print('Appended ' + comp + ' to blacklist')
 
 				cant = cant - 1
+
+print('Updating Blacklist')
+out = pd.DataFrame.from_records([list_blackl]).T
+out.to_csv('data/blacklist.csv')
 
 print()
 print('UPDATING Nasdaq Others')
