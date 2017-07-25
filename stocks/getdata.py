@@ -21,6 +21,9 @@ end           = datetime.datetime(yesterday.year, yesterday.month, yesterday.day
 ticks         = pd.read_csv("data/nasdaq.csv", index_col=None, header=None)
 ticks.columns = ["Ticker"]
 
+blacklist         = pd.read_csv("data/blacklist.csv", index_col=None, header=None)
+blacklist.columns = ["Ticker"]
+
 print()
 print('UPDATING Nasdaq Stocks')
 
@@ -56,6 +59,7 @@ for index, row in ticks.iterrows():
 					cant = cant - 1	
 
 	else:
+		
 		while (cant != 0):
 			
 			try:

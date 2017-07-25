@@ -25,4 +25,10 @@ os.system("awk '{print $1}' data/nasdaq.lst2 > data/nasdaq.csv")
 os.system("awk '{print $8}' data/other.lst2 > data/other.csv")
 
 #remove .lst files
-#os.system("rm data/*.lst data/*.lst2")
+os.system("rm data/*.lst data/*.lst2")
+
+if not os.path.isfile('data/blacklist.csv'):
+	os.system('touch data/blacklist.csv')
+
+if not os.path.isfile('data/whitelist.csv'):
+	os.system('touch data/whitelist.csv')
