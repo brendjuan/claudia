@@ -6,9 +6,14 @@ from datetime import date
 from datetime import timedelta
 import pandas as pd
 import time
+import ntplib
+
+x             = ntplib.NTPClient()
+today         = datetime.datetime.utcfromtimestamp(x.request('north-america.pool.ntp.org').tx_time)
+today         = today - timedelta(hours = 4) #offset to NYC time
 
 start         = datetime.datetime(2010, 1, 1)
-yesterday     = date.today() - timedelta(days = 1)
+yesterday     = today.date() - timedelta(days = 1)
 
 if (yesterday.weekday() == 5):
 	yesterday = date.today() - timedelta(days = 2)
@@ -59,7 +64,7 @@ for index, row in ticks.iterrows():
 					cant = cant - 1	
 
 	else:
-		
+
 		while (cant != 0):
 			
 			try:

@@ -1,5 +1,7 @@
 import threading
 import time
+import datetime
+import ntplib
 
 class get_closing(thread.Thread)
 	def __init__(self, tick='AAPL'):
@@ -15,7 +17,7 @@ class get_rt(thread.Thread)
 #Intraday stock ticker updating
 #Frequency = every 2 or so minutes (defined later)
 class update_intraday(threading.Thread):
-	def __init__(self):
+	def __init__(self, stampe=datetime.datetime()):
 
 	def run(self):
 

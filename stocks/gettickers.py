@@ -29,6 +29,8 @@ os.system("rm data/*.lst data/*.lst2")
 
 if not os.path.isfile('data/blacklist.csv'):
 	os.system('touch data/blacklist.csv')
+	os.system("echo 'AAAA' > data/blacklist.csv")
 
 if not os.path.isfile('data/whitelist.csv'):
 	os.system('touch data/whitelist.csv')
+	os.system("echo 'AAAA' > data/whitelist.csv")
