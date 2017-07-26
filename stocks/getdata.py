@@ -8,6 +8,8 @@ import pandas as pd
 import time
 import ntplib
 
+tolerance     = 0
+
 x             = ntplib.NTPClient()
 today         = datetime.datetime.utcfromtimestamp(x.request('north-america.pool.ntp.org').tx_time)
 today         = today - timedelta(hours = 4) #offset to NYC time
@@ -26,7 +28,7 @@ end           = datetime.datetime(yesterday.year, yesterday.month, yesterday.day
 ticks         = pd.read_csv("data/nasdaq.csv", index_col=None, header=None)
 ticks.columns = ["Ticker"]
 
-blackl         = pd.read_csv("data/blacklist.csv", index_col=None, header=None)
+blackl         = pd.read_csv("data/blacklist.csv", index_col=0)
 blackl.columns = ["Ticker"]
 list_blackl    = list(blackl['Ticker'])
 
@@ -47,6 +49,9 @@ for index, row in ticks.iterrows():
 		delta = fin.date() - yesterday
 
 		if delta != timedelta():
+			if comp in list_blackl :
+				cant = tolerance
+
 			fin = fin.date() + timedelta(days=1)
 			print(comp+ ' Updating')
 			while cant != 0:
@@ -56,17 +61,23 @@ for index, row in ticks.iterrows():
 					app = pd.read_csv('temp.csv',index_col=0)
 					temp = temp.append(app)
 					temp.to_csv('data/nasdaq/'+comp+'.csv')
-
+					if comp in list_blackl:
+						list_blackl.remove(comp)
 					cant = 0
 				except:
-					print (comp + ' ' + str(sys.exc_info()[0]))
+					#print (comp + ' ' + str(sys.exc_info()[0]))
 					if cant == 1 :
 						print ('FAILED: REACHED TIMEOUT ON ' + comp)
+						if not comp in list_blackl:
+							list_blackl.append(comp)
+							print('Appended ' + comp + ' to blacklist')
+						else:
+							print(comp + ' is already on blacklist')
 					cant = cant - 1	
 
 	else:
 		if comp in list_blackl :
-			cant = 1
+			cant = tolerance 
 
 		while (cant != 0):
 			
@@ -84,6 +95,8 @@ for index, row in ticks.iterrows():
 					if not comp in list_blackl:
 						list_blackl.append(comp)
 						print('Appended ' + comp + ' to blacklist')
+					else:
+						print(comp + ' is already on blacklist')
 
 				cant = cant - 1
 
@@ -96,6 +109,7 @@ print('UPDATING Nasdaq Others')
 
 ticks         = pd.read_csv("data/other.csv", index_col=None, header=None)
 ticks.columns = ["Ticker"]
+
 for index, row in ticks.iterrows():
 	cant = 10
 	comp = row['Ticker']
@@ -108,6 +122,9 @@ for index, row in ticks.iterrows():
 		delta = fin.date() - yesterday
 
 		if delta != timedelta():
+			if comp in list_blackl :
+				cant = tolerance
+
 			fin = fin.date() + timedelta(days=1)
 			print(comp+ ' Updating')
 			while cant != 0:
@@ -117,26 +134,47 @@ for index, row in ticks.iterrows():
 					app = pd.read_csv('temp.csv',index_col=0)
 					temp = temp.append(app)
 					temp.to_csv('data/other/'+comp+'.csv')
-
+					if comp in list_blackl:
+						list_blackl.remove(comp)
 					cant = 0
 				except:
-					print (comp + ' ' + str(sys.exc_info()[0]))
+					#print (comp + ' ' + str(sys.exc_info()[0]))
 					if cant == 1 :
 						print ('FAILED: REACHED TIMEOUT ON ' + comp)
+						if not comp in list_blackl:
+							list_blackl.append(comp)
+							print('Appended ' + comp + ' to blacklist')
+						else:
+							print(comp + ' is already on blacklist')
+					
 					cant = cant - 1		
 
 	else:
+		if comp in list_blackl :
+			cant = tolerance
+
 		while (cant != 0):
 			
 			try:
 				f = web.DataReader(comp, 'yahoo', start, end)
 				f.to_csv('data/other/'+comp+'.csv')
+				if comp in list_blackl:
+					list_blackl.remove(comp)
 				cant = 0
 			except:
 				time.sleep(0.01)
-				print (comp + ' ' + str(sys.exc_info()[0]))
+				#print (comp + ' ' + str(sys.exc_info()[0]))
 				if cant == 1 :
 					print ('FAILED: REACHED TIMEOUT ON ' + comp)
+					if not comp in list_blackl:
+						list_blackl.append(comp)
+						print('Appended ' + comp + ' to blacklist')
+					else:
+						print(comp + ' is already on blacklist')
 
 				cant = cant - 1
+
+print('Updating Blacklist')
+out = pd.DataFrame.from_records([list_blackl]).T
+out.to_csv('data/blacklist.csv')
 	
