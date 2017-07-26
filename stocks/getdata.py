@@ -8,13 +8,13 @@ import pandas as pd
 import time
 import ntplib
 
-tolerance     = 0
+tolerance     = 3
 
 x             = ntplib.NTPClient()
 today         = datetime.datetime.utcfromtimestamp(x.request('north-america.pool.ntp.org').tx_time)
 today         = today - timedelta(hours = 4) #offset to NYC time
 
-start         = datetime.datetime(2010, 1, 1)
+start         = datetime.datetime(1980, 1, 1)
 yesterday     = today.date() - timedelta(days = 1)
 
 if (yesterday.weekday() == 5):

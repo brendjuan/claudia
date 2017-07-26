@@ -16,7 +16,7 @@ from matplotlib.figure import Figure
 day_month = 31
 day_year  = 365
 
-ticker = 'AAPL'
+ticker = 'AMD'
 yesterday     = date.today() - timedelta(days = 1)
 
 if (yesterday.weekday() == 5):
@@ -30,6 +30,9 @@ three_month   = yesterday - timedelta(days = 3 * day_month)
 one_year      = yesterday - timedelta(days = day_year)
 five_year     = yesterday - timedelta(days = 5 * day_year)
 all_time      = datetime.datetime(2010, 1, 1)
+
+data = pd.read_csv('data/nasdaq/'+ticker+'.csv')
+data['Date'] = pd.to_datetime(data['Date'])
 
 from tkinter import ttk
 
@@ -133,10 +136,9 @@ class PageThree(tk.Frame):
                             command=lambda: controller.show_frame(StartPage))
         button1.pack()
 
-        
-        #f = Figure(figsize=(5,5), dpi=100)
-        #a = f.add_subplot(111)
-        #a.plot([1,2,3,4,5,6,7,8],[5,6,1,3,8,9,3,5])
+        f = Figure()
+        a = f.add_subplot(111)
+        test = data.plot(x=['Date'], y=['Open','High','Low','Close','Adj Close'], ax=a)
 
         
 
