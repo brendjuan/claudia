@@ -12,10 +12,11 @@ tolerance     = 0
 
 x             = ntplib.NTPClient()
 today         = datetime.datetime.utcfromtimestamp(x.request('north-america.pool.ntp.org').tx_time)
-today         = today - timedelta(hours = 4) #offset to NYC time
-
+today         = today - timedelta(hours=4) #offset to NYC time
+#today         = today + timedelta(hours=7, minutes=30) #offset to put closing at midnight + 30
 start         = datetime.datetime(1980, 1, 1)
 yesterday     = today.date() - timedelta(days = 1)
+
 
 if (yesterday.weekday() == 5):
 	yesterday = today.date() - timedelta(days = 2)
