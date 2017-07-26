@@ -1,5 +1,6 @@
 import os
 
+#Build Directory Tree
 if not os.path.isdir('data'):
      os.system('mkdir data')
 
@@ -39,10 +40,13 @@ os.system("awk '{print $8}' data/other.lst2 > data/other.csv")
 #remove .lst files
 os.system("rm data/*.lst data/*.lst2")
 
+#Initialize blacklist and whitelists in data directory
 if not os.path.isfile('data/blacklist.csv'):
 	os.system('touch data/blacklist.csv')
+     #fake csv data with a dummy symbol 'AAAA'
 	os.system("echo ',0\n0,AAAA' > data/blacklist.csv")
 
 if not os.path.isfile('data/whitelist.csv'):
 	os.system('touch data/whitelist.csv')
+     #fake csv data with a dummy symbol 'AAAA'
 	os.system("echo ',0\n0,AAAA' > data/whitelist.csv")
