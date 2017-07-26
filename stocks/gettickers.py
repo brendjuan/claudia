@@ -1,5 +1,17 @@
 import os
 
+if not os.path.isdir('data'):
+     os.system('mkdir data')
+
+if not os.path.isdir('data/nasdaq'):
+     os.system('mkdir data/nasdaq')
+
+if not os.path.isdir('data/daily'):
+     os.system('mkdir data/daily')
+
+if not os.path.isdir('data/other'):
+     os.system('mkdir data/other')
+
 #Get raw data 
 os.system("curl --ftp-ssl anonymous:jupi@jupi.com "
           "ftp://ftp.nasdaqtrader.com/SymbolDirectory/nasdaqlisted.txt "
