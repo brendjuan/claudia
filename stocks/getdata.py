@@ -8,7 +8,7 @@ import pandas as pd
 import time
 import ntplib
 
-tolerance     = 3
+tolerance     = 0
 
 x             = ntplib.NTPClient()
 today         = datetime.datetime.utcfromtimestamp(x.request('north-america.pool.ntp.org').tx_time)
