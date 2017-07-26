@@ -16,7 +16,7 @@ from matplotlib.figure import Figure
 day_month = 31
 day_year  = 365
 
-ticker = 'AMD'
+ticker = 'FCEL'
 yesterday     = date.today() - timedelta(days = 1)
 
 if (yesterday.weekday() == 5):
