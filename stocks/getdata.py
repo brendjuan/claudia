@@ -8,6 +8,7 @@ import pandas as pd
 import time
 import ntplib
 
+
 tolerance     = 0
 
 x             = ntplib.NTPClient()
